@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>P&W | Cruise Parking & Detailing</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHdpZHRoPSc2NCcgaGVpZ2h0PSc2NCcgdmlld0JveD0nMCAwIDY0IDY0Jz4KICA8ZGVmcz4KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0nZ3JhZCcgeDE9JzAnIHgyPScxJyB5MT0nMCcgeTI9JzEnPgogICAgICA8c3RvcCBvZmZzZXQ9JzAlJyBzdG9wLWNvbG9yPScjZmY4YTY1Jy8+CiAgICAgIDxzdG9wIG9mZnNldD0nMTAwJScgc3RvcC1jb2xvcj0nIzJhOWQ4ZicvPgogICAgPC9saW5lYXJHcmFkaWVudD4KICA8L2RlZnM+CiAgPHJlY3Qgd2lkdGg9JzY0JyBoZWlnaHQ9JzY0JyByeD0nNicgZmlsbD0ndXJsKCNncmFkKScvPgogIDx0ZXh0IHg9JzUwJScgeT0nNTUlJyB0ZXh0LWFuY2hvcj0nbWlkZGxlJyBmb250LWZhbWlseT0nUG9wcGlucywgc2Fucy1zZXJpZicgZm9udC1zaXplPScyNicgZm9udC13ZWlnaHQ9JzcwMCcgZmlsbD0nIzA1MzY0ZCc+UCZhbXA7VzwvdGV4dD4KPC9zdmc+">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --sea: #6ec6e0;
+  --teal: #2a9d8f;
+  --sand: #f5e5c0;
+  --coral: #ff8a65;
+  --navy: #05364d;
+  --ink: #24323a;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Poppins', sans-serif;
+  color: var(--ink);
+  background: linear-gradient(180deg,#ffffff 0%,#fafeff 40%,#f5fbfd 100%);
+  scroll-behavior: smooth;
+}
+/* Wave shimmer layer (activates on scroll for 4s then fades) */
+.wave-bg {
+  position: fixed; inset: 0; pointer-events:none; opacity:0;
+  background: repeating-linear-gradient(to right, rgba(110,198,224,0.08) 0px, rgba(110,198,224,0.08) 2px, transparent 2px, transparent 6px);
+  z-index: 5;
+}
+.wave-active { animation: waveDrift 4s ease-in-out forwards; }
+@keyframes waveDrift {
+  0%   { background-position: 0 0; opacity: .30; }
+  80%  { background-position: 40px 0; opacity: .30; }
+  100% { background-position: 80px 0; opacity: 0;   }
+}
+
+/* Header / nav */
+header {
+  position: sticky; top: 0; z-index: 20;
+  background: rgba(255,255,255,0); transition: background .3s ease, box-shadow .3s ease;
+}
+header.scrolled {
+  background: rgba(5,54,77,0.85);
+  box-shadow: 0 2px 10px rgba(0,0,0,.15);
+}
+.navbar {
+  display: flex; justify-content: space-between; align-items: center;
+  max-width: 1200px; margin: 0 auto; padding: 14px 20px;
+  color: white;
+}
+.navbar a { color: white; text-decoration: none; margin-left: 18px; font-weight: 600; }
+.navbar a:hover { opacity: .9; }
+
+/* Hero banner: full-width, 45vh, fixed background, darker overlay + fade-in */
+.hero {
+  height: 45vh; min-height: 360px; position: relative; opacity: 0;  
+  background-size: cover; background-position: center;
+  animation: fadeIn 2.5s ease-in-out forwards;
+  /* Override hero background using external PNG file instead of base64 for better mobile compatibility */
+  background-image: linear-gradient(rgba(5,54,77,0.60), rgba(5,54,77,0.15)), url('ParkWash.png');
+}
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+/* Hero text sits below; upward reveal on scroll */
+.hero-text { text-align:center; padding: 40px 20px 10px; max-width: 900px; margin: 0 auto; }
+.hero-text h1 { color: var(--navy); font-size: clamp(26px,4vw,40px); font-weight: 700; }
+.hero-text p.tag { color:#2b5364; font-size: clamp(16px,2.2vw,20px); margin-top: 6px; }
+.reveal { opacity: 0; transform: translateY(18px); transition: all 1s ease-out; }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* Sections & cards */
+section { padding: 56px 20px; max-width: 1200px; margin: 0 auto; }
+.section-title { text-align:center; color: var(--navy); font-size: clamp(22px,3vw,32px); margin-bottom: 10px; }
+.section-sub { text-align:center; color:#315a6b; max-width: 760px; margin: 0 auto 26px; }
+.grid { display: grid; gap: 22px; }
+@media (min-width: 768px) {
+  .cols-2 { grid-template-columns: repeat(2,1fr); }
+  .cols-3 { grid-template-columns: repeat(3,1fr); }
+}
+.card {
+  background: linear-gradient(180deg,#ffffff,#fffef9);
+  border: 1px solid #f0e8d7;
+  border-radius: 18px;
+  box-shadow: 0 12px 24px rgba(5,54,77,.06);
+  padding: 20px;
+}
+.badge { background:#fff3e9; color:#ac4b2d; border:1px solid #ffd8c5; border-radius:999px; padding:4px 10px; font-weight:600; font-size:12px }
+
+.features { display:grid; gap:10px; margin-top:12px; }
+.features .row { display:flex; align-items:center; gap:10px; color:#265361 }
+.check { width:18px; height:18px; border-radius:50%; background:linear-gradient(135deg,var(--teal),var(--sea)); display:inline-block; position:relative }
+.check:after { content:''; position:absolute; width:8px; height:4px; border-left:2px solid #fff; border-bottom:2px solid #fff; transform:rotate(-45deg); left:4px; top:6px }
+
+/* Booking form + Payment placeholder */
+.form { background: linear-gradient(180deg,#ffffff,#fbf8ee); border:1px solid #f0e6cf; border-radius:18px; box-shadow:0 16px 28px rgba(5,54,77,.08); padding:24px }
+.row { display:grid; gap:16px }
+@media (min-width: 768px) { .row.two { grid-template-columns: 1fr 1fr; } }
+label { font-weight:600; color:#305467 }
+input, select, textarea { width:100%; padding:12px 14px; border:1px solid #cfe7ef; border-radius:12px; background:#fff }
+button.primary {
+  background:linear-gradient(135deg,var(--sea),var(--coral)); color:#fff; border:none; border-radius:12px;
+  padding:12px 16px; font-weight:700; box-shadow:0 10px 24px rgba(83,183,214,.3); cursor:pointer
+}
+button.primary:hover { transform: translateY(-1px) }
+
+/* Footer */
+footer { background: var(--navy); color: #cde7f0; padding: 40px 20px; margin-top: 40px }
+footer a { color: #cde7f0 }
+
+.hero {
+  height: 50vh;
+  min-height: 400px;
+  position: relative;
+  opacity: 0;
+  background-size: cover;
+  background-position: center right;
+  animation: fadeIn 2.5s ease-in-out forwards;
+  background-image: linear-gradient(rgba(5,54,77,0.45), rgba(5,54,77,0.15)), url('ParkWash_v2.png');
+}
+
+.hero-overlay {
+  position: absolute;
+  right: 5%;
+  bottom: 20%;
+  color: #ffffff;
+  text-align: right;
+  background: rgba(5,54,77,0.25);
+  padding: 24px 36px;
+  border-radius: 12px;
+  max-width: 480px;
+  animation: slideUp 2s ease-in-out forwards;
+  opacity: 0;
+}
+.hero-overlay h1 {
+  font-size: clamp(42px, 6vw, 72px);
+  font-weight: 700;
+  margin-bottom: 14px;
+  color: #ffffff;
+  line-height: 1.1;
+}
+.hero-overlay p {
+  line-height: 1.4;
+  font-size: clamp(18px, 3vw, 24px);
+  color: #f0f9fb;
+}
+.hero-overlay a {
+  color: #ffffff;
+  text-decoration: underline;
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+
+/* Responsive mobile adjustments */
+@media (max-width: 768px) {
+  .hero {
+    height: 70vh;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+  .hero-overlay {
+    position: absolute;
+    left: 50%;
+    bottom: 10%;
+    transform: translateX(-50%);
+    text-align: center;
+    background: rgba(5,54,77,0.25);
+    padding: 20px 24px;
+    max-width: 90%;
+  }
+  .hero-overlay h1 {
+    font-size: clamp(34px, 8vw, 56px);
+  }
+  .hero-overlay p {
+    font-size: clamp(16px, 4vw, 22px);
+	word-break: break-word;
+    overflow-wrap: anywhere;
+  }
+}
+
+</style>
+</head>
+<body>
+<div class="wave-bg" id="wave"></div>
+
+<header id="nav">
+  <div class="navbar">
+    <div style="font-weight:700;color:white;">P&amp;W</div>
+    <div>
+      <a href="#services">Services</a>
+      <a href="#booking">Book Now</a>
+      <a href="#faq">FAQ</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </div>
+</header>
+
+<!-- Hero -->
+<div class="hero" id="hero">
+  <div class="hero-overlay reveal visible" id="heroOverlay">
+    <h1>Park &amp; Wash</h1>
+    <p>2806 New Strand<br>Galveston, Texas 77550<br>409-771-4658<br><a href="mailto:Clintbrown@me.com">Clintbrown@me.com</a><br>Full detail shop</p>
+  </div>
+</div>
+
+<!-- Services (full content with your crucial bits) -->
+<section id="services">
+  <h2 class="section-title">Our Services</h2>
+  <p class="section-sub"><strong>Pricing varies:</strong> Due to the competitive market, rates change regularly — final prices are shown during booking.</p>
+
+  <div class="grid cols-3">
+    <!-- Cruise Parking -->
+    <div class="card">
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;">
+        <h3 style="margin:0;color:var(--navy)">Cruise Parking</h3>
+        <span class="badge">Varies</span>
+      </div>
+      <p style="margin:10px 0 0;">Secure parking for your vehicle while you enjoy your cruise. Fenced, lighted facility with 24/7 security.</p>
+      <div class="features">
+        <div class="row"><span class="check"></span> <span>Drop‑off near terminal</span></div>
+        <div class="row"><span class="check"></span> <span>Competitive rates available</span></div>
+        <div class="row"><span class="check"></span> <span>Digital reservation</span></div>
+      </div>
+      <hr style="border:none;border-top:1px solid #f0e6cf;margin:14px 0;">
+      <p style="margin:0;color:#315a6b">
+        We cannot legally enter port property. We’ll drop you as close as possible:
+        <br>• For ships at <strong>25th St &amp; Harborside Dr</strong> — about <strong>0.22 miles</strong> (less than 5‑minute walk).
+        <br>• For ships opposite New Strand — <strong>directly across the street</strong> from Park &amp; Wash.
+      </p>
+    </div>
+
+    <!-- Detailing -->
+    <div class="card">
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;">
+        <h3 style="margin:0;color:var(--navy)">Car Detailing</h3>
+        <span class="badge">Varies</span>
+      </div>
+      <p style="margin:10px 0 0;">Full-service wash and detailing while you cruise. Choose Regular, Deluxe, or VIP options during booking.</p>
+      <div class="features">
+        <div class="row"><span class="check"></span> <span>Exterior wash &amp; dry</span></div>
+        <div class="row"><span class="check"></span> <span>Interior vacuum &amp; windows</span></div>
+        <div class="row"><span class="check"></span> <span>Premium wax (VIP)</span></div>
+      </div>
+    </div>
+
+    <!-- Quick Facts -->
+    <div class="card">
+      <h3 style="margin:0;color:var(--navy)">Quick Facts</h3>
+      <ul style="margin:10px 0 0;padding-left:18px;line-height:1.6;color:#265361">
+        <li>Secure fenced lot with lighting &amp; cameras</li>
+        <li>Competitive market pricing — shown during booking</li>
+        <li>Open daily — hours vary by cruise schedule</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- Booking & Payment -->
+<section id="booking">
+  <h2 class="section-title">Book Your Parking</h2>
+  <p class="section-sub">Complete your details below. You’ll see the most up-to-date pricing during booking. Payment is coming soon — we’ve added a portal placeholder ready to wire up.</p>
+
+  <form class="form" action="mailto:parkwash-bookings@example.com" method="post" enctype="text/plain">
+    <div class="row two">
+      <div>
+        <label for="name">Full Name</label>
+        <input id="name" name="Full Name" required>
+      </div>
+      <div>
+        <label for="email">Email</label>
+        <input id="email" name="Email" type="email" required>
+      </div>
+    </div>
+
+    <div class="row two" style="margin-top:10px">
+      <div>
+        <label for="phone">Phone</label>
+        <input id="phone" name="Phone" type="tel" required>
+      </div>
+      <div>
+        <label for="ship">Cruise Ship</label>
+        <input id="ship" name="Cruise Ship" placeholder="e.g., Carnival Dream" required>
+      </div>
+    </div>
+
+    <div class="row two" style="margin-top:10px">
+      <div>
+        <label for="depart">Departure Date</label>
+        <input id="depart" name="Departure Date" type="date" required>
+      </div>
+      <div>
+        <label for="return">Return Date</label>
+        <input id="return" name="Return Date" type="date" required>
+      </div>
+    </div>
+
+    <div class="row two" style="margin-top:10px">
+      <div>
+        <label for="passengers">Passengers (for drop‑off)</label>
+        <input id="passengers" name="Passengers" type="number" min="1" max="10" value="2">
+      </div>
+      <div>
+        <label for="detail">Car Detailing</label>
+        <select id="detail" name="Car Detailing">
+          <option value="none">No detailing</option>
+          <option>Regular Wash</option>
+          <option>Deluxe Wash</option>
+          <option>VIP Wash & Wax</option>
+        </select>
+      </div>
+    </div>
+
+    <div style="margin-top:10px">
+      <label for="notes">Notes</label>
+      <textarea id="notes" name="Notes" rows="3" placeholder="Anything we should know?"></textarea>
+    </div>
+
+    <!-- Payment placeholder block: ready for backend hookup -->
+    <div id="payment-portal" style="margin-top:18px;padding:16px;border:1px dashed #e7caa5;border-radius:12px;background:#fffaf2;color:#7a4b2e">
+      <strong>Payment Portal (Coming Soon):</strong>
+      <p style="margin:8px 0 10px">We’ll add secure checkout here. For now, submit the booking request and we’ll follow up with the latest pricing and a payment link.</p>
+      <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center">
+        <input disabled placeholder="Card number" aria-label="Card number"
+               style="flex:1;min-width:220px;padding:12px 14px;border:1px solid #e6d7bf;border-radius:10px;background:#fff;opacity:.6">
+        <input disabled placeholder="MM/YY" aria-label="Expiry"
+               style="width:110px;padding:12px 14px;border:1px solid #e6d7bf;border-radius:10px;background:#fff;opacity:.6">
+        <input disabled placeholder="CVC" aria-label="CVC"
+               style="width:100px;padding:12px 14px;border:1px solid #e6d7bf;border-radius:10px;background:#fff;opacity:.6">
+        <button type="button" disabled class="primary"
+                id="pay-button" data-payment-provider="stripe" data-mode="checkout"
+                style="opacity:.65;cursor:not-allowed">Pay Securely (Coming Soon)</button>
+      </div>
+    </div>
+
+    <div style="margin-top:18px;display:flex;gap:12px;flex-wrap:wrap">
+      <button class="primary" type="submit">Request Booking</button>
+      <a class="primary" href="#faq" style="text-decoration:none;display:inline-block;background:linear-gradient(135deg,var(--teal),var(--sea));padding:12px 16px;border-radius:12px;">Read FAQs</a>
+    </div>
+  </form>
+</section>
+
+<!-- Reviews (kept) -->
+<section id="reviews">
+  <h2 class="section-title">What Our Customers Say</h2>
+  <div class="grid cols-3">
+    <div class="card">
+      <div style="color:#f5b700;font-size:18px;">★★★★★</div>
+      <p>"So convenient! The drop‑off was quick and the parking felt safe. Came back to a sparkling car!"</p>
+      <p style="margin-top:8px;color:#315a6b">— Sarah J.</p>
+    </div>
+    <div class="card">
+      <div style="color:#f5b700;font-size:18px;">★★★★★</div>
+      <p>"Peace of mind while we cruised. VIP wash was worth it — the car looked better than when we left."</p>
+      <p style="margin-top:8px;color:#315a6b">— Mark T.</p>
+    </div>
+    <div class="card">
+      <div style="color:#f5b700;font-size:18px;">★★★★★</div>
+      <p>"Easy booking and friendly staff. We'll definitely use Park & Wash again for our next trip."</p>
+      <p style="margin-top:8px;color:#315a6b">— Amanda L.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ (carried over & clarified) -->
+<section id="faq">
+  <h2 class="section-title">Frequently Asked Questions</h2>
+  <div class="grid">
+    <div class="card">
+      <h3 style="margin:0 0 6px;color:var(--navy)">How far are you from the cruise terminal?</h3>
+      <p style="color:#315a6b">
+        We’re only a few blocks from the terminals. Due to port rules, we cannot enter port property.
+        We’ll drop you as close as possible:
+        <br>• For ships at <strong>25th St &amp; Harborside Dr</strong> — about <strong>0.22 miles</strong> (less than 5‑minute walk).
+        <br>• For ships opposite New Strand — <strong>directly across the street</strong> from Park &amp; Wash.
+      </p>
+    </div>
+    <div class="card">
+      <h3 style="margin:0 0 6px;color:var(--navy)">What security measures do you have?</h3>
+      <p style="color:#315a6b">24/7 security cameras, perimeter fencing, lighting, and staff on‑site during business hours.</p>
+    </div>
+    <div class="card">
+      <h3 style="margin:0 0 6px;color:var(--navy)">When should I arrive for my cruise?</h3>
+      <p style="color:#315a6b">Arrive at least 1.5 hours before your boarding time to allow for parking and the short walk from our drop‑off point.</p>
+    </div>
+    <div class="card">
+      <h3 style="margin:0 0 6px;color:var(--navy)">Can I modify or cancel my reservation?</h3>
+      <p style="color:#315a6b">Yes — modifications/cancellations are accepted up to 24 hours before your scheduled parking date.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Contact / Location -->
+<section id="contact">
+  <h2 class="section-title">Contact & Location</h2>
+  <div class="grid cols-2">
+    <div class="card">
+      <h3 style="margin:0;color:var(--navy)">Park &amp; Wash</h3>
+      <p style="margin:8px 0"><strong>Address:</strong> 2806 New Strand, Galveston, TX 77550</p>
+      <p style="margin:8px 0"><strong>Phone:</strong> <a href="tel:14097714658">(409) 771-4658</a></p>
+      <p style="margin:8px 0"><strong>Email:</strong> <a href="mailto:clintbrown@me.com">clintbrown@me.com</a></p>
+      <p style="margin:8px 0;color:#315a6b">Just steps from Pier 19 — the sea breeze starts here.</p>
+      <div style="display:flex;gap:10px;margin-top:10px;flex-wrap:wrap">
+        <a class="primary" href="mailto:clintbrown@me.com" style="text-decoration:none">Email Us</a>
+        <a class="primary" href="tel:14097714658" style="text-decoration:none;background:linear-gradient(135deg,var(--teal),var(--sea));">Call Now</a>
+      </div>
+    </div>
+    <div class="card" style="padding:0;overflow:hidden">
+      <iframe title="Map to Park & Wash" src="https://www.google.com/maps?q=2806+New+Strand,+Galveston,+TX+77550&output=embed" style="border:0;width:100%;height:360px"></iframe>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div style="max-width:1200px;margin:0 auto;">
+    <p>© 2025 Park &amp; Wash. All rights reserved.</p>
+  </div>
+</footer>
+
+<script>
+// Seamless banner + nav fade-in and nav tint on scroll; hero text reveal; wave shimmer trigger once
+let wavePlayed = false;
+window.addEventListener('scroll', () => {
+  const nav = document.getElementById('nav');
+  const heroText = document.getElementById('heroText');
+  const wave = document.getElementById('wave');
+  if (window.scrollY > 0) {
+    nav.classList.add('scrolled');
+    heroText.classList.add('visible');
+    if (!wavePlayed) {
+      wavePlayed = true;
+      wave.classList.add('wave-active');
+      setTimeout(() => wave.classList.remove('wave-active'), 4200);
+    }
+  } else {
+    nav.classList.remove('scrolled');
+    heroText.classList.remove('visible');
+  }
+});
+</script>
+</body>
+</html>
